@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.7.RELEASE' apply false
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE' apply false
+    id 'io.freefair.lombok' version '4.0.1' apply false
+}
+
+group 'com.mogikalol'
+version '1.0.0'
+
+ext {
+    jjwtVersion = '0.9.1'
+    commonsFileuploadVersion = '1.3.3'
+    postgresqlVersion = '42.2.1'
+    orikaMapperVersion = '1.8.0'
+}
+
+configure(subprojects) {
+
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR2"
+        }
+        dependencies {
+            dependency "net.rakugakibox.spring.boot:orika-spring-boot-starter:$orikaMapperVersion"
+            dependency "io.jsonwebtoken:jjwt:$jjwtVersion"
+            dependency "commons-fileupload:commons-fileupload:$commonsFileuploadVersion"
+            dependency "org.postgresql:postgresql:$postgresqlVersion"
+        }
+    }
+}
+task copyJars(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar) }
+    into "$buildDir"
+}
+
+task build {
+    finalizedBy copyJars
+}
+
+task clean {
+    delete "$buildDir"
+}

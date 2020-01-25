@@ -1,0 +1,5 @@
+rootProject.name = 'aib-backend'
+
+include 'aib-data'
+include 'eureka-discovery'
+include 'zuul-gateway'

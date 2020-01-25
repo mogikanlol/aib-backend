@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.freefair.lombok'
+}
+sourceCompatibility = 1.8
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'net.rakugakibox.spring.boot:orika-spring-boot-starter'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.h2database:h2'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+}
