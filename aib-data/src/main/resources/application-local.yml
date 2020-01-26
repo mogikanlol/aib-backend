@@ -1,0 +1,14 @@
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+spring:
+  application:
+    name: aib-data
+
+eureka:
+  client:
+    enabled: false
+
+server:
+  port: 8081
