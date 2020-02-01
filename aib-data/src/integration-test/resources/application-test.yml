@@ -5,12 +5,7 @@ logging:
 spring:
   application:
     name: aib-data
-  datasource:
-    platform: h2
 
 eureka:
   client:
     enabled: false
-
-server:
-  port: 8081
