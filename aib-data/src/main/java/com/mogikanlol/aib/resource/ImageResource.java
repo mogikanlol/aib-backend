@@ -2,15 +2,17 @@ package com.mogikanlol.aib.resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 @RestController
+@RequestMapping("/images")
 public class ImageResource {
 
-    @GetMapping("/images/{title}")
+    @GetMapping("/{title}")
     public byte[] getImage(@PathVariable("title") String title) throws Exception {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("images/" + title);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
