@@ -3,10 +3,9 @@ package com.mogikanlol.aib.domain;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +19,9 @@ public class Board {
 
     @Enumerated(EnumType.STRING)
     private BoardGenre genre;
+
+    @OneToMany(mappedBy = "board")
+    private List<Thread> threads = new ArrayList<>();
 
     public enum BoardGenre {
         JAPAN,

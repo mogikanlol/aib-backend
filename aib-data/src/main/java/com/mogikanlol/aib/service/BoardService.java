@@ -17,4 +17,8 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    public Board getById(String id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new BoardNotFoundException(id));
+    }
 }
