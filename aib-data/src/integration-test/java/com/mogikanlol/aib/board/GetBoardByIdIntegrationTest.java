@@ -8,22 +8,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.JsonExpectationsHelper;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @IntegrationTest
-public class GetAllBoardsIntegrationTest {
+public class GetBoardByIdIntegrationTest {
 
     @LocalServerPort
     private int port;
@@ -47,12 +41,8 @@ public class GetAllBoardsIntegrationTest {
                 .setId("jp")
                 .setGenre(Board.BoardGenre.JAPAN)
                 .setTitle("Japan");
-        Board mangaBoard = new Board()
-                .setId("mng")
-                .setGenre(Board.BoardGenre.JAPAN)
-                .setTitle("Manga");
 
-        boardRepository.saveAll(Arrays.asList(japanBoard, mangaBoard));
+        boardRepository.save(japanBoard);
     }
 
     @AfterEach
@@ -62,13 +52,12 @@ public class GetAllBoardsIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String expectedJson = TestUtils.readResourceAsString("board/get-boards-200.json");
+        String expectedJson = TestUtils.readResourceAsString("board/get-board-by-id-200.json");
 
-        ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/boards", String.class);
+        ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/boards/jp", String.class);
         String actualJson = entity.getBody();
 
         assertNotNull(actualJson);
         jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
     }
-
 }
