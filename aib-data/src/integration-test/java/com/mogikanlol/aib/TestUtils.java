@@ -15,4 +15,9 @@ public class TestUtils {
         log.info("Loading resource {}", resourcePath);
         return new String(Files.readAllBytes(new ClassPathResource(resourcePath).getFile().toPath()));
     }
+
+    public static byte[] readResourceAsBytes(String resourcePath) throws Exception {
+        log.info("Loading resource {}", resourcePath);
+        return Files.readAllBytes(new ClassPathResource(resourcePath).getFile().toPath());
+    }
 }
