@@ -6,6 +6,9 @@ SET @lorem='Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
             'voluptate temporibus in dolorum, error quos repellat voluptatibus cumque. Nam! Lorem ipsum dolor sit amet consectetur adipisicing elit.' ||
             'Laboriosam, aliquid harum asperiores facilis, quisquam eaque vel nihil officia culpa ducimus voluptate temporibus in dolorum,' ||
             'error quos repellat voluptatibus cumque. Nam!';
+SET @ content = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. ' ||
+                'Error, voluptas itaque nemo ullam rerum modi aperiam dicta quibusdam neque ' ||
+                'tempore quo repellendus sunt, ab reiciendis quam quisquam obcaecati alias expedita?';
 
 INSERT INTO board (id, title, genre)
 VALUES
@@ -40,3 +43,11 @@ VALUES
 (2, 'JoJo Thread', 'a', 'http://localhost:8081/images/jojo.jpg', @lorem),
 (3, 'SAO Thread', 'a', 'http://localhost:8081/images/sao.jpg', @lorem),
 (4, 'ReZero Thread', 'a', 'http://localhost:8081/images/rezero.png', @lorem);
+
+INSERT INTO post (id, content, thread_id)
+VALUES
+(0, @content, 0),
+(1, @content, 0),
+(2, @content, 0),
+(3, @content, 0),
+(4, @content, 0);
