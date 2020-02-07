@@ -44,6 +44,8 @@ VALUES
 (3, 'SAO Thread', 'a', 'http://localhost:8081/images/sao.jpg', @lorem),
 (4, 'ReZero Thread', 'a', 'http://localhost:8081/images/rezero.png', @lorem);
 
+ALTER sequence thread_id_seq restart with 5;
+
 INSERT INTO post (id, content, thread_id)
 VALUES
 (0, @content, 0),

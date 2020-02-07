@@ -12,7 +12,8 @@ import java.util.List;
 public class Thread {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "thread_id_generator")
+    @SequenceGenerator(name = "thread_id_generator", sequenceName = "thread_id_seq", allocationSize = 1)
     private Long id;
 
     private String title;

@@ -20,7 +20,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardGenre genre;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Thread> threads = new ArrayList<>();
 
     public enum BoardGenre {
