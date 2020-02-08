@@ -23,7 +23,7 @@ public class Thread {
     @Column(columnDefinition = "text")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
 

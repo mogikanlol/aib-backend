@@ -33,33 +33,11 @@ public class GetAllBoardsIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private BoardRepository boardRepository;
-
     private static JsonExpectationsHelper jsonExpectationsHelper;
 
     @BeforeAll
     static void setUp() {
         jsonExpectationsHelper = new JsonExpectationsHelper();
-    }
-
-    @BeforeEach
-    void setData() {
-        Board japanBoard = new Board()
-                .setId("jp")
-                .setGenre(Board.BoardGenre.JAPAN)
-                .setTitle("Japan");
-        Board mangaBoard = new Board()
-                .setId("mng")
-                .setGenre(Board.BoardGenre.JAPAN)
-                .setTitle("Manga");
-
-        boardRepository.saveAll(Arrays.asList(japanBoard, mangaBoard));
-    }
-
-    @AfterEach
-    void removeData() {
-        boardRepository.deleteAll();
     }
 
     @Test

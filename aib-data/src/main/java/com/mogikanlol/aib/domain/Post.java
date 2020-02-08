@@ -18,7 +18,7 @@ public class Post {
     @Column(columnDefinition = "text")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "thread_id")
     private Thread thread;
 }

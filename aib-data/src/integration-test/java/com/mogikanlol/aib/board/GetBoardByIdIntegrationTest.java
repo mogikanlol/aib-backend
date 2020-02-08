@@ -27,29 +27,11 @@ public class GetBoardByIdIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private BoardRepository boardRepository;
-
     private static JsonExpectationsHelper jsonExpectationsHelper;
 
     @BeforeAll
     static void setUp() {
         jsonExpectationsHelper = new JsonExpectationsHelper();
-    }
-
-    @BeforeEach
-    void setData() {
-        Board japanBoard = new Board()
-                .setId("jp")
-                .setGenre(Board.BoardGenre.JAPAN)
-                .setTitle("Japan");
-
-        boardRepository.save(japanBoard);
-    }
-
-    @AfterEach
-    void removeData() {
-        boardRepository.deleteAll();
     }
 
     @Test

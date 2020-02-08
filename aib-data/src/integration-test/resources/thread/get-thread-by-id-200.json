@@ -1,6 +1,6 @@
 {
-  "id": 1,
-  "title": "Neon Genesis Evangelion",
-  "imageUrl": "http://localhost:8080/images/url",
+  "id": 0,
+  "title": "Neon Genesis Evangelion Thread",
+  "imageUrl": "http://localhost:8081/images/eva.png",
   "content": "content"
 }

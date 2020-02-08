@@ -44,20 +44,6 @@ public class CreateNewThreadIntegrationTest {
         jsonExpectationsHelper = new JsonExpectationsHelper();
     }
 
-    @BeforeEach
-    void setData() {
-        Board board = new Board()
-                .setId("test")
-                .setTitle("Test title");
-
-        boardRepository.save(board);
-    }
-
-    @AfterEach
-    void removeData() {
-        boardRepository.deleteAll();
-    }
-
     @Test
     void successPath() throws Exception {
         String requestJson = TestUtils.readResourceAsString("thread/new-thread.json");
@@ -75,17 +61,26 @@ public class CreateNewThreadIntegrationTest {
         // TODO: Figure out how to check id in json response
         assertNotNull(actualJson);
         jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
+
+        removeEntityFromDB();
     }
 
     private void assertThreadExistsInDB() {
-        Board board = new Board()
-                .setId("test")
-                .setTitle("Test title");
         Thread thread = new Thread()
                 .setTitle("Test title")
-                .setContent("Test content")
-                .setBoard(board);
+                .setContent("Test content");
         Example<Thread> example = Example.of(thread);
         assertTrue(threadRepository.exists(example));
+    }
+
+    private void removeEntityFromDB() {
+        Thread thread = new Thread()
+                .setTitle("Test title")
+                .setContent("Test content");
+        Example<Thread> example = Example.of(thread);
+        Thread entity = threadRepository.findOne(example).orElse(null);
+        if (entity != null) {
+            threadRepository.delete(entity);
+        }
     }
 }

@@ -2,11 +2,7 @@ package com.mogikanlol.aib.thread;
 
 import com.mogikanlol.aib.IntegrationTest;
 import com.mogikanlol.aib.TestUtils;
-import com.mogikanlol.aib.domain.Thread;
-import com.mogikanlol.aib.repository.ThreadRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -27,9 +23,6 @@ public class GetThreadByIdIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private ThreadRepository threadRepository;
-
     private static JsonExpectationsHelper jsonExpectationsHelper;
 
     @BeforeAll
@@ -37,27 +30,11 @@ public class GetThreadByIdIntegrationTest {
         jsonExpectationsHelper = new JsonExpectationsHelper();
     }
 
-    @BeforeEach
-    void setData() {
-        Thread evaThread = new Thread()
-                .setId(1L)
-                .setTitle("Neon Genesis Evangelion")
-                .setImageUrl("http://localhost:8080/images/url")
-                .setContent("content");
-
-        threadRepository.save(evaThread);
-    }
-
-    @AfterEach
-    void removeData() {
-        threadRepository.deleteAll();
-    }
-
     @Test
     void successPath() throws Exception {
         String expectedJson = TestUtils.readResourceAsString("thread/get-thread-by-id-200.json");
 
-        ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/threads/1", String.class);
+        ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/threads/0", String.class);
         String actualJson = entity.getBody();
 
         assertEquals(HttpStatus.OK, entity.getStatusCode());
