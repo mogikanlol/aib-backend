@@ -53,3 +53,5 @@ VALUES
 (2, @content, 0),
 (3, @content, 0),
 (4, @content, 0);
+
+ALTER sequence post_id_seq restart with 5;
