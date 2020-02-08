@@ -3,6 +3,7 @@ package com.mogikanlol.aib.resource;
 import com.mogikanlol.aib.domain.Post;
 import com.mogikanlol.aib.dto.NewPostRequest;
 import com.mogikanlol.aib.dto.PostDto;
+import com.mogikanlol.aib.dto.PostPatchDto;
 import com.mogikanlol.aib.service.PostService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -27,5 +28,11 @@ public class PostResource {
     @DeleteMapping("/{id}")
     public Long delete(@PathVariable("id") Long id) {
         return postService.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public PostDto update(@PathVariable("id") Long id, @RequestBody PostPatchDto postDto) {
+        Post post = postService.update(id, postDto);
+        return mapperFacade.map(post, PostDto.class);
     }
 }

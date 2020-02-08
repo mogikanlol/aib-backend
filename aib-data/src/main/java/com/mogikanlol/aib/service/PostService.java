@@ -3,6 +3,7 @@ package com.mogikanlol.aib.service;
 import com.mogikanlol.aib.domain.Post;
 import com.mogikanlol.aib.domain.Thread;
 import com.mogikanlol.aib.dto.NewPostRequest;
+import com.mogikanlol.aib.dto.PostPatchDto;
 import com.mogikanlol.aib.repository.PostRepository;
 import com.mogikanlol.aib.repository.ThreadRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,14 @@ public class PostService {
     public Long delete(Long id) {
         postRepository.deleteById(id);
         return id;
+    }
+
+    public Post update(Long id, PostPatchDto postDto) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException(id));
+
+        post.setContent(postDto.getContent());
+
+        return postRepository.save(post);
     }
 }
