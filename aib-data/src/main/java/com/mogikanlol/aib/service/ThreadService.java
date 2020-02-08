@@ -31,9 +31,6 @@ public class ThreadService {
                 .setTitle(request.getTitle())
                 .setBoard(board);
 
-        List<Thread> threads = board.getThreads();
-        threads.add(thread);
-
         return threadRepository.save(thread);
     }
 }
