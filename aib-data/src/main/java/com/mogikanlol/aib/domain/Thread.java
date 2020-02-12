@@ -24,7 +24,7 @@ public class Thread {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @OneToMany(mappedBy = "thread")

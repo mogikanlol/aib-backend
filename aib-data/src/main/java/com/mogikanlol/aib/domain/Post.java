@@ -19,6 +19,6 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "thread_id")
+    @JoinColumn(name = "thread_id", nullable = false)
     private Thread thread;
 }
