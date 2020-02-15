@@ -36,13 +36,13 @@ VALUES
 ('gd', 'Graphic Design', 'CREATIVE'),
 ('fa', 'Fashion', 'CREATIVE');
 
-INSERT INTO thread (id, title, board_id, image_url, content)
+INSERT INTO thread (id, title, board_id, image_name, content)
 VALUES
-(0, 'Neon Genesis Evangelion Thread', 'a', 'http://localhost:8081/images/eva.png', @lorem),
-(1, 'K-On Thread', 'a', 'http://localhost:8081/images/k-on.jpg', @lorem),
-(2, 'JoJo Thread', 'a', 'http://localhost:8081/images/jojo.jpg', @lorem),
-(3, 'SAO Thread', 'a', 'http://localhost:8081/images/sao.jpg', @lorem),
-(4, 'ReZero Thread', 'a', 'http://localhost:8081/images/rezero.png', @lorem);
+(0, 'Neon Genesis Evangelion Thread', 'a', 'eva.png', @lorem),
+(1, 'K-On Thread', 'a', 'k-on.jpg', @lorem),
+(2, 'JoJo Thread', 'a', 'jojo.jpg', @lorem),
+(3, 'SAO Thread', 'a', 'sao.jpg', @lorem),
+(4, 'ReZero Thread', 'a', 'rezero.png', @lorem);
 
 ALTER sequence thread_id_seq restart with 5;
 

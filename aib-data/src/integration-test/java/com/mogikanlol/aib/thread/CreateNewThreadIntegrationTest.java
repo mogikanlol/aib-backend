@@ -14,11 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.data.domain.Example;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.util.JsonExpectationsHelper;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,9 +47,17 @@ public class CreateNewThreadIntegrationTest {
     void successPath() throws Exception {
         String requestJson = TestUtils.readResourceAsString("thread/new-thread.json");
         String expectedJson = TestUtils.readResourceAsString("thread/post-new-thread-200.json");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Content-type", "application/json;charset=UTF-8");
-        HttpEntity<String> httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+
+        HttpHeaders entityHeaders = new HttpHeaders();
+        entityHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> threadEntity = new HttpEntity<>(requestJson, entityHeaders);
+
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> map= new LinkedMultiValueMap<>();
+        map.add("thread", threadEntity);
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(map, requestHeaders);
 
         ResponseEntity<String> response = restTemplate
                 .postForEntity("http://localhost:" + port + "/threads", httpEntity, String.class);

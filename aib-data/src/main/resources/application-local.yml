@@ -16,3 +16,6 @@ eureka:
 
 server:
   port: 8081
+
+images:
+  pathToFolder: C:\dev\aib-backend\aib-data\src\main\resources\images

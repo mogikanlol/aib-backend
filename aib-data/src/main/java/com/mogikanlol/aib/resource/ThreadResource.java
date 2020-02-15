@@ -8,6 +8,7 @@ import com.mogikanlol.aib.service.ThreadService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -20,8 +21,9 @@ public class ThreadResource {
     private final MapperFacade mapperFacade;
 
     @PostMapping
-    public ThreadDto create(@RequestBody @Valid NewThreadRequest request) {
-        Thread thread = threadService.create(request);
+    public ThreadDto create(@RequestPart("thread") @Valid NewThreadRequest request,
+                            @RequestPart(name = "image", required = false) MultipartFile image) {
+        Thread thread = threadService.create(request, image);
         return mapperFacade.map(thread, ThreadDto.class);
     }
 

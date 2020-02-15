@@ -18,7 +18,7 @@ public class Thread {
 
     private String title;
 
-    private String imageUrl;
+    private String imageName;
 
     @Column(columnDefinition = "text")
     private String content;
