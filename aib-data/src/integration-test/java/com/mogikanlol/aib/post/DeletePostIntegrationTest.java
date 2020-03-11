@@ -1,30 +1,28 @@
 package com.mogikanlol.aib.post;
 
 import com.mogikanlol.aib.AbstractIntegrationTest;
-import com.mogikanlol.aib.TestUtils;
 import com.mogikanlol.aib.domain.Board;
+import com.mogikanlol.aib.domain.Post;
 import com.mogikanlol.aib.domain.Thread;
 import com.mogikanlol.aib.repository.BoardRepository;
 import com.mogikanlol.aib.repository.PostRepository;
 import com.mogikanlol.aib.repository.ThreadRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.domain.Example;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.util.JsonExpectationsHelper;
-import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class CreateNewPostIntegrationTest extends AbstractIntegrationTest {
+public class DeletePostIntegrationTest extends AbstractIntegrationTest {
+
+    @Autowired
+    private PostRepository postRepository;
 
     @Autowired
     private ThreadRepository threadRepository;
@@ -46,23 +44,19 @@ public class CreateNewPostIntegrationTest extends AbstractIntegrationTest {
                 .setContent("content")
                 .setBoard(board);
         threadRepository.save(thread);
+
+        Post post = new Post()
+                .setContent("content")
+                .setThread(thread);
+        postRepository.save(post);
     }
 
     @Test
-    void successPath() throws Exception {
-        String requestJson = TestUtils.readResourceAsString("post/new-post.json");
-        String expectedJson = TestUtils.readResourceAsString("post/post-new-post-200.json");
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Content-type", "application/json;charset=UTF-8");
-        HttpEntity<String> httpEntity = new HttpEntity<>(requestJson, httpHeaders);
-
-        ResponseEntity<String> response = restTemplate
-                .postForEntity("http://localhost:" + port + "/posts", httpEntity, String.class);
-        String actualJson = response.getBody();
+    void successPath() {
+        ResponseEntity<Long> response = restTemplate.exchange("http://localhost:" + port + "/posts/1", HttpMethod.DELETE, null, Long.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(actualJson);
-        jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
+        assertNotNull(response.getBody());
+        assertEquals(Long.valueOf(1L), response.getBody());
     }
 }

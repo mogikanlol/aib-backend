@@ -5,8 +5,6 @@ logging:
 spring:
   application:
     name: aib-data
-  datasource:
-    platform: test
 
 eureka:
   client:
