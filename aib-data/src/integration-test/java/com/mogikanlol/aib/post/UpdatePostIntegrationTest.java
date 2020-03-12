@@ -1,23 +1,23 @@
 package com.mogikanlol.aib.post;
 
 import com.mogikanlol.aib.AbstractIntegrationTest;
+import com.mogikanlol.aib.TestUtils;
 import com.mogikanlol.aib.domain.Board;
 import com.mogikanlol.aib.domain.Post;
 import com.mogikanlol.aib.domain.Thread;
+import com.mogikanlol.aib.dto.PostPatchDto;
 import com.mogikanlol.aib.repository.BoardRepository;
 import com.mogikanlol.aib.repository.PostRepository;
 import com.mogikanlol.aib.repository.ThreadRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class DeletePostIntegrationTest extends AbstractIntegrationTest {
+public class UpdatePostIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private PostRepository postRepository;
@@ -50,16 +50,23 @@ public class DeletePostIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void successPath() {
-        ResponseEntity<Long> response = restTemplate.exchange(
+    void successPath() throws Exception {
+        String expectedJson = TestUtils.readResourceAsString("post/update-post-200.json");
+        PostPatchDto postPatchDto = new PostPatchDto()
+                .setContent("new-content");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Content-type", "application/json;charset=UTF-8");
+        HttpEntity<PostPatchDto> httpEntity = new HttpEntity<>(postPatchDto, httpHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(
                 "http://localhost:" + port + "/posts/1",
-                HttpMethod.DELETE,
-                null,
-                Long.class
+                HttpMethod.PATCH,
+                httpEntity,
+                String.class
         );
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(Long.valueOf(1L), response.getBody());
+        jsonExpectationsHelper.assertJsonEqual(expectedJson, response.getBody());
     }
 }

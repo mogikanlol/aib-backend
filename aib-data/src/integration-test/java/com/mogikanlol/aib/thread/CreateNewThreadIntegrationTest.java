@@ -4,12 +4,10 @@ import com.mogikanlol.aib.AbstractIntegrationTest;
 import com.mogikanlol.aib.TestUtils;
 import com.mogikanlol.aib.domain.Board;
 import com.mogikanlol.aib.repository.BoardRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.test.util.JsonExpectationsHelper;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 

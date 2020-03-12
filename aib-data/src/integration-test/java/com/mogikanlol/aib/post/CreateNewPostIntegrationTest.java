@@ -5,24 +5,17 @@ import com.mogikanlol.aib.TestUtils;
 import com.mogikanlol.aib.domain.Board;
 import com.mogikanlol.aib.domain.Thread;
 import com.mogikanlol.aib.repository.BoardRepository;
-import com.mogikanlol.aib.repository.PostRepository;
 import com.mogikanlol.aib.repository.ThreadRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.util.JsonExpectationsHelper;
-import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateNewPostIntegrationTest extends AbstractIntegrationTest {
 
