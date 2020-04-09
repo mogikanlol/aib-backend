@@ -5,6 +5,8 @@ logging:
 spring:
   application:
     name: aib-data
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.xml
 
 eureka:
   client:

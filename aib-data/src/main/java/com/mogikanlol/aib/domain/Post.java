@@ -15,10 +15,9 @@ public class Post {
     @SequenceGenerator(name = "post_id_generator", sequenceName = "post_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(columnDefinition = "text")
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "thread_id", nullable = false)
+    @JoinColumn(name = "thread_id")
     private Thread thread;
 }

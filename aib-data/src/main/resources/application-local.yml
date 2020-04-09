@@ -5,6 +5,8 @@ logging:
 spring:
   application:
     name: aib-data
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.xml
   datasource:
     platform: h2
   h2:

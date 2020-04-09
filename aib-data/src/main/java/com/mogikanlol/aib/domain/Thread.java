@@ -20,11 +20,10 @@ public class Thread {
 
     private String imageName;
 
-    @Column(columnDefinition = "text")
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @OneToMany(mappedBy = "thread")
