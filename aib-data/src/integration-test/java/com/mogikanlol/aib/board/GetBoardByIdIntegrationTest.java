@@ -29,13 +29,22 @@ public class GetBoardByIdIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String expectedJson = TestUtils.readResourceAsString("board/get-board-by-id-200.json");
+        String expectedJson = TestUtils.readResourceAsString("board/get-board-by-id-response-200.json");
 
-        ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/boards/jp", String.class);
-        String actualJson = entity.getBody();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/boards/jp", String.class);
+        String actualJson = response.getBody();
 
-        assertEquals(HttpStatus.OK, entity.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(actualJson);
         jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
+    }
+
+    @Test
+    void boardNotFound() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/boards/test",
+                String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

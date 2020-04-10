@@ -35,7 +35,7 @@ public class GetAllBoardsIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String expectedJson = TestUtils.readResourceAsString("board/get-boards-200.json");
+        String expectedJson = TestUtils.readResourceAsString("board/get-boards-response-200.json");
 
         ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/boards", String.class);
         String actualJson = entity.getBody();

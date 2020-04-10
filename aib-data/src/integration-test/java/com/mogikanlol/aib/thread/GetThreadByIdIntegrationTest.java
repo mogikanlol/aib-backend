@@ -41,14 +41,25 @@ public class GetThreadByIdIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String expectedJson = TestUtils.readResourceAsString("thread/get-thread-by-id-200.json");
+        String expectedJson = TestUtils.readResourceAsString("thread/get-thread-by-id-response-200.json");
 
-        ResponseEntity<String> entity = restTemplate.getForEntity("http://localhost:" + port + "/threads/1", String.class);
+        ResponseEntity<String> entity = restTemplate.getForEntity(
+                "http://localhost:" + port + "/threads/1",
+                String.class);
         String actualJson = entity.getBody();
 
         assertEquals(HttpStatus.OK, entity.getStatusCode());
         assertNotNull(actualJson);
         jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
+    }
+
+    @Test
+    void threadNotFound() {
+        ResponseEntity<String> entity = restTemplate.getForEntity(
+                "http://localhost:" + port + "/threads/999",
+                String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, entity.getStatusCode());
     }
 
 }

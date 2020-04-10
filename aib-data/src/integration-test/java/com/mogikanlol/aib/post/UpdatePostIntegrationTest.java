@@ -51,12 +51,12 @@ public class UpdatePostIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String expectedJson = TestUtils.readResourceAsString("post/update-post-200.json");
-        PostPatchDto postPatchDto = new PostPatchDto()
-                .setContent("new-content");
+        String expectedJson = TestUtils.readResourceAsString("post/update-post-response-200.json");
+        String requestJson = TestUtils.readResourceAsString("post/update-post-request.json");
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-type", "application/json;charset=UTF-8");
-        HttpEntity<PostPatchDto> httpEntity = new HttpEntity<>(postPatchDto, httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>(requestJson, httpHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 "http://localhost:" + port + "/posts/1",
@@ -68,5 +68,23 @@ public class UpdatePostIntegrationTest extends AbstractIntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         jsonExpectationsHelper.assertJsonEqual(expectedJson, response.getBody());
+    }
+
+    @Test
+    void postNotFound() throws Exception {
+        String requestJson = TestUtils.readResourceAsString("post/update-post-request.json");
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Content-type", "application/json;charset=UTF-8");
+        HttpEntity<String> httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/posts/999",
+                HttpMethod.PATCH,
+                httpEntity,
+                String.class
+        );
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

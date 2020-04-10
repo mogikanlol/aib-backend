@@ -30,8 +30,8 @@ public class CreateNewThreadIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String requestJson = TestUtils.readResourceAsString("thread/new-thread.json");
-        String expectedJson = TestUtils.readResourceAsString("thread/post-new-thread-200.json");
+        String requestJson = TestUtils.readResourceAsString("thread/new-thread-request.json");
+        String expectedJson = TestUtils.readResourceAsString("thread/post-new-thread-response-200.json");
 
         HttpHeaders entityHeaders = new HttpHeaders();
         entityHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -51,5 +51,26 @@ public class CreateNewThreadIntegrationTest extends AbstractIntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(actualJson);
         jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
+    }
+
+    @Test
+    void boardNotFound() throws Exception {
+        String requestJson = TestUtils.readResourceAsString("thread/new-thread-with-wrong-board-request.json");
+
+        HttpHeaders entityHeaders = new HttpHeaders();
+        entityHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> threadEntity = new HttpEntity<>(requestJson, entityHeaders);
+
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> map= new LinkedMultiValueMap<>();
+        map.add("thread", threadEntity);
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(map, requestHeaders);
+
+        ResponseEntity<String> response = restTemplate
+                .postForEntity("http://localhost:" + port + "/threads", httpEntity, String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

@@ -43,8 +43,8 @@ public class CreateNewPostIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void successPath() throws Exception {
-        String requestJson = TestUtils.readResourceAsString("post/new-post.json");
-        String expectedJson = TestUtils.readResourceAsString("post/post-new-post-200.json");
+        String requestJson = TestUtils.readResourceAsString("post/new-post-request.json");
+        String expectedJson = TestUtils.readResourceAsString("post/new-post-response-200.json");
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-type", "application/json;charset=UTF-8");
@@ -57,5 +57,19 @@ public class CreateNewPostIntegrationTest extends AbstractIntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(actualJson);
         jsonExpectationsHelper.assertJsonEqual(expectedJson, actualJson);
+    }
+
+    @Test
+    void threadNotFound() throws Exception {
+        String requestJson = TestUtils.readResourceAsString("post/new-post-with-wrong-thread-request.json");
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Content-type", "application/json;charset=UTF-8");
+        HttpEntity<String> httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+
+        ResponseEntity<String> response = restTemplate
+                .postForEntity("http://localhost:" + port + "/posts", httpEntity, String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
