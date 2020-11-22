@@ -6,10 +6,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableZuulProxy
 @SpringBootApplication
 public class Application {
@@ -21,7 +22,12 @@ public class Application {
     @Bean
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
-        detailsManager.createUser(User.withUsername("test").password("$2a$10$vXo124lhpeiifSslvwROqutxcIiyQliIJq4lozW7hlJbk.Zm3xBIa").roles("USER").build());
+        UserDetails userDetails = User
+                .withUsername("test")
+                .password("$2a$10$vXo124lhpeiifSslvwROqutxcIiyQliIJq4lozW7hlJbk.Zm3xBIa")
+                .roles("USER")
+                .build();
+        detailsManager.createUser(userDetails);
         return detailsManager;
     }
 }

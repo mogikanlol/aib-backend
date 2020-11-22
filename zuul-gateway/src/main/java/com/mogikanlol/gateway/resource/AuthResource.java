@@ -10,17 +10,21 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/auth")
 public class AuthResource {
 
     private final AuthService authService;
 
-    @PostMapping("/login")
+    @GetMapping("/test")
+    public String test() {
+        return "String test";
+    }
+
+    @PostMapping("/auth/login")
     public String login(@RequestBody @Valid SigninRequest signinRequest) {
         return authService.authenticate(signinRequest);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public String register(@RequestBody @Valid SignupRequest signupRequest) {
         return authService.register(signupRequest);
     }

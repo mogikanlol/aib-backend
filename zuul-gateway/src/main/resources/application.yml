@@ -10,3 +10,6 @@ zuul:
     conf-crud:
       path: /aib-data/**
       serviceId: aib-data
+eureka:
+  client:
+    enabled: false

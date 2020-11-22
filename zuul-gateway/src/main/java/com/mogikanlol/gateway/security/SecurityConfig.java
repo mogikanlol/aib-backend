@@ -29,30 +29,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        if (false) {
-            JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter =
-                    new JwtAuthenticationTokenFilter(jwtTokenProvider, userDetailsService);
+        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter =
+                new JwtAuthenticationTokenFilter(jwtTokenProvider, userDetailsService);
 
-            httpSecurity
-                    .csrf().disable()
-                    .authorizeRequests()
-                    .antMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-            httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        } else {
-            httpSecurity
-                    .csrf().disable()
-                    .authorizeRequests()
-                    .anyRequest().permitAll();
-        }
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

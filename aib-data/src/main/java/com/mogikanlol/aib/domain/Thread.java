@@ -26,6 +26,6 @@ public class Thread {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "thread")
+    @OneToMany(mappedBy = "thread", orphanRemoval = true)
     private List<Post> posts;
 }
