@@ -19,15 +19,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
-        UserDetails userDetails = User
-                .withUsername("test")
-                .password("$2a$10$vXo124lhpeiifSslvwROqutxcIiyQliIJq4lozW7hlJbk.Zm3xBIa")
-                .roles("USER")
-                .build();
-        detailsManager.createUser(userDetails);
-        return detailsManager;
-    }
 }

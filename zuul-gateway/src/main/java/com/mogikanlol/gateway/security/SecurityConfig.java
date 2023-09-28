@@ -1,56 +1,69 @@
-// package com.mogikanlol.gateway.security;
+package com.mogikanlol.gateway.security;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.security.authentication.AuthenticationManager;
-// import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-// import org.springframework.security.config.http.SessionCreationPolicy;
-// import org.springframework.security.core.userdetails.UserDetailsService;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// @EnableWebSecurity
-// public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
 
-//     @Autowired
-//     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
-//     @Autowired
-//     private UserDetailsService userDetailsService;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-//     @Bean
-//     public PasswordEncoder passwordEncoder() {
-//         return new BCryptPasswordEncoder();
-//     }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-//     @Override
-//     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//     }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter =
+                new JwtAuthenticationTokenFilter(jwtTokenProvider, userDetailsService());
 
-//     @Override
-//     protected void configure(HttpSecurity httpSecurity) throws Exception {
-//         JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter =
-//                 new JwtAuthenticationTokenFilter(jwtTokenProvider, userDetailsService);
+        httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .authorizeRequests(authorize -> authorize
+                        .anyRequest().permitAll()
+//                        .requestMatchers("/auth/**").permitAll()
+//                        .anyRequest().authenticated()
+                )
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-//         httpSecurity
-//                 .csrf().disable()
-//                 .authorizeRequests()
-//                 .antMatchers("/auth/**").permitAll()
-//                 .anyRequest().authenticated()
-//                 .and()
-//                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-//         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-//     }
+        return httpSecurity.build();
+    }
 
-//     @Bean
-//     @Override
-//     public AuthenticationManager authenticationManagerBean() throws Exception {
-//         return super.authenticationManagerBean();
-//     }
-// }
+    // test : test
+    @Bean
+    public UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager();
+        UserDetails userDetails = User
+                .withUsername("test")
+                .password("$2a$10$vXo124lhpeiifSslvwROqutxcIiyQliIJq4lozW7hlJbk.Zm3xBIa")
+                .roles("USER")
+                .build();
+        detailsManager.createUser(userDetails);
+        return detailsManager;
+    }
+}
