@@ -4,8 +4,6 @@ plugins {
     id 'io.freefair.lombok'
 }
 
-sourceCompatibility = 1.8
-
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 }

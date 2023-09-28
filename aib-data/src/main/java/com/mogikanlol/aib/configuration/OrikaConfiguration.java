@@ -6,7 +6,7 @@ import com.mogikanlol.aib.dto.ThreadWithPostsDto;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
+import dev.akkinoc.spring.boot.orika.OrikaMapperFactoryConfigurer;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

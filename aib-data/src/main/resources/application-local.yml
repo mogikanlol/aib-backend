@@ -9,9 +9,13 @@ spring:
     change-log: classpath:db/changelog/liquibase-changelog.xml
   datasource:
     platform: h2
+    initialization-mode: always
   h2:
     console:
       enabled: true
+  sql:
+    init:
+      mode: always
 eureka:
   client:
     enabled: false
@@ -20,4 +24,4 @@ server:
   port: 8081
 
 images:
-  pathToFolder: C:\dev\aib-backend\aib-data\src\main\resources\images
+  pathToFolder: C:\Users\Dmitry\Desktop\poehali\aib-backend\aib-data\src\main\resources\images

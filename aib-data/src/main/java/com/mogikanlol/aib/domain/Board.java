@@ -3,7 +3,7 @@ package com.mogikanlol.aib.domain;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

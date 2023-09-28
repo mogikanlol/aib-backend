@@ -4,22 +4,15 @@ plugins {
     id 'io.freefair.lombok'
 }
 
-sourceCompatibility = 1.8
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul:2.2.10.RELEASE'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation 'io.jsonwebtoken:jjwt'
 
-//    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
-//    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.2'
+    implementation "io.jsonwebtoken:jjwt:0.9.1"
 
-
-
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'com.h2database:h2'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
 }
