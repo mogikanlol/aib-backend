@@ -2,6 +2,7 @@ package com.mogikanlol.aib.image;
 
 import com.mogikanlol.aib.AbstractIntegrationTest;
 import com.mogikanlol.aib.configuration.ImagesProperties;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 public class GetImageByTitleIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired

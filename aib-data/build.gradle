@@ -16,11 +16,6 @@ sourceSets {
     }
 }
 
-// https://github.com/orika-mapper/orika/issues/377
-// https://discuss.gradle.org/t/unrecognized-jvm-option-for-add-opens-gradle-6-and-jdk11/34325/3
-application {
-    applicationDefaultJvmArgs = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
-}
 
 test {
     useJUnitPlatform()
@@ -43,7 +38,7 @@ task integrationTest(type: Test) {
     shouldRunAfter test
 }
 
-// check.dependsOn integrationTest
+ check.dependsOn integrationTest
 
 dependencies {
     // https://stackoverflow.com/questions/67283934/spring-java-package-javax-validation-constraints-does-not-exist
@@ -53,7 +48,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation ('dev.akkinoc.spring.boot:orika-spring-boot-starter:3.0.0')
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
