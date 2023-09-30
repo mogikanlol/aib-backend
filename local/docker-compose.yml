@@ -9,13 +9,42 @@ services:
     container_name: aib_data_postgres
     ports:
       - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   pgadmin:
     image: dpage/pgadmin4
     container_name: aib_data_pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "8090:80"
+
+  object-storage:
+    image: quay.io/minio/minio:latest
+    container_name: aib_data_minio
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    command: server --console-address ":9001" /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+#  https://dev.classmethod.jp/articles/minio-docker-compose/
+  mc:
+    image: minio/mc
+    container_name: aib_data_minio_mc
+    depends_on:
+      - object-storage
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    entrypoint:
+      /bin/sh -c "
+      mc alias set myminio http://object-storage:9000 root password;
+      mc mb myminio/my-first-bucket;
+      mc cp minio-data/* myminio/my-first-bucket;
+      "
+    volumes:
+      - ./minio-data:/minio-data

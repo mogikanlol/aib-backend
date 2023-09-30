@@ -8,6 +8,7 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/liquibase-changelog.xml
   datasource:
+    url: jdbc:h2:mem:mydb
     platform: h2
     initialization-mode: always
   h2:
@@ -22,6 +23,3 @@ eureka:
 
 server:
   port: 8081
-
-images:
-  pathToFolder: C:\Users\Dmitry\Desktop\poehali\aib-backend\aib-data\src\main\resources\images

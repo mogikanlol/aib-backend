@@ -7,10 +7,11 @@ spring:
     name: aib-data
   liquibase:
     change-log: classpath:db/changelog/liquibase-changelog.xml
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:mydb
+    platform: h2
 
 eureka:
   client:
     enabled: false
-
-images:
-  pathToFolder: C:\dev\aib-backend\aib-data\src\main\resources\images

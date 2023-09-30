@@ -4,4 +4,5 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="ddl/2020-04-08--01-create-board-tables.xml" relativeToChangelogFile="true"/>
+    <include file="2023-09-30--01-run-init-data-sql.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
